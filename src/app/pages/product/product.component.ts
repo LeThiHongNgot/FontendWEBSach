@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { bookhome } from 'src/interfaces/bookhome';
 import { bookimg } from '../../../interfaces/bookimg';
@@ -8,21 +9,15 @@ import { BookDetail } from '../../../interfaces/bookdetail';
 import { Supplier } from '../../../interfaces/Supplier';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { BookImgsService } from 'src/services/BookImgs/bookimgs.service';
-import { BooksService } from 'src/services/Books/books.service';
-import { AuthorsService} from 'src/services/Authors/authors.service';
-import { CategoriesService } from 'src/services/Categories/categories.service';
-import { BookDetailsService } from 'src/services/BookDetails/bookdetails.service';
-import { SupliersService } from 'src/services/Supliers/supliers.service';
-@Component({ selector: 'app-product',
+
+@Component({
+  selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-  constructor( private route: ActivatedRoute,
-    private router: Router,private bookImgs: BookImgsService, private books: BooksService,
-    private authors:AuthorsService,private categories:CategoriesService,private bookdetails:BookDetailsService,
-    private suplier:SupliersService) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute,private router: Router) {}
+
   product: bookhome | null = null;
   products: bookhome [] = [];
   img: bookimg | null = null;
@@ -30,92 +25,90 @@ export class ProductComponent implements OnInit {
   Category:Category[]=[];
   Suplier:Supplier[]=[];
   bookdetail:BookDetail | null = null;
-  book: any[] = [];
+  book:BookDetail[]=[];
   imgbook:bookimg[]=[];
  // ...
  ngOnInit(): void {
 const productId= this.route.snapshot.paramMap.get('id')||'';
+
   if (productId) {
-    this.books.BooksId(productId).subscribe({
-      next:(res)=>
-      {
-        this.product = res
+    this.http.get<bookhome>(`https://localhost:7009/api/Books/${productId}`).subscribe(
+      (response) => {
+        this.product = response;
       },
-      error:(err)=>
-      {
-        console.error('lỗi', err);
+      (error) => {
+        console.error('lỗi', error);
       }
-    })
-    this.bookImgs.BookImgId(productId)
-    .subscribe({
-      next: (res) => {
-        this.img = res
+    )
+    console.log(productId)
+    this.http.get<bookimg>(`https://localhost:7009/api/Bookimgs/${productId}`).subscribe(
+      (response) => {
+        this.img = response;
       },
-      error: (err) => {
-        console.error('Lỗi từ API:', err);
+      (error) => {
+        console.error('Lõi dữ liệu', error);
+      }
+    );
+    this.http.get<Author[]>(`https://localhost:7009/api/Authors`).subscribe(
+      (response) => {
+        this.author = response;
       },
-    });
-    // Lấy sách cùng loại
-    this.books.Books().subscribe({
-      next:(res)=>{
-        this.products=res
+      (error) => {
+        console.error('Error fetching product data', error);
+      }
+    );
+    this.http.get<Category[]>(`https://localhost:7009/api/Categories/`).subscribe(
+      (response) => {
+        this.Category = response;
       },
-      error:(err)=>{
-        console.error('Lỗi lấy dữ liệu ',err);
+      (error) => {
+        console.error('Lõi dữ liệu', error);
+      }
+    );
+    this.http.get<BookDetail>(`https://localhost:7009/api/Bookdetails/${productId}`).subscribe(
+      (response) => {
+        this.bookdetail = response;
       },
-    });
-    this.authors.Authors().subscribe({
-      next:(res)=>{
-        this.author=res
+      (error) => {
+        console.error('Lõi dữ liệu', error);
+      }
+    );
+    this.http.get<Supplier[]>(`https://localhost:7009/api/Suppliers`).subscribe(
+      (response) => {
+        this.Suplier= response;
       },
-      error:(err)=>{
-        console.error('Lỗi lấy dữ liệu ',err);
-      },
-    });
-    this.categories.Categories().subscribe({
-      next:(res)=>{
-        this.Category=res
-      },
-      error:(err)=>{
-        console.error('Lỗi lấy dữ liệu tác giả',err);
-      },
-    });
-  this.bookdetails.BookDetailId(productId).subscribe({
-    next:(res)=>{
-      this.bookdetail=res
-    },
-    error:(err)=>{
-      console.error('Lỗi lấy dữ liệu ',err);
-    },
-  });
-    this.suplier.Suppliers().subscribe({
-      next:(res)=>{
-        this.Suplier= res
-      },
-      error:(err)=>{
-        console.error('Lỗi lấy dữ liệu tác giả',err);
-      },
-    })
-  this.bookImgs.BookImg().subscribe({
-  next: (res) => {
-    this.imgbook=res
-  },
-  error: (err) => {
-    alert('Vui lòng nhập đúng thông tin');
-  },
-});
+      (error) => {
+        console.error('Lõi dữ liệu', error);
+      }
+    );
+   // Tải tất cả các sản phẩm từ dịch vụ web
 
-this.bookdetails.BookDetail().subscribe({
-  next: (res: any[]) => {
-    this.book = res.filter(product => product.categoryId === this.bookdetail?.categoryId);
-  },
-  error: (err) => {
-    console.error('Lỗi lấy dữ liệu tác giả', err);
-  },
-});
+    this.http.get<bookimg[]>(`https://localhost:7009/api/Bookimgs`).subscribe(
+      (response) => {
+        this.imgbook= response;
+      },
+      (error) => {
+        console.error('Lõi dữ liệu', error);
+      }
+    );
+    this.http.get<BookDetail[]>(`https://localhost:7009/api/Bookdetails/`).subscribe(
+      (productsResponse) => {
+       this.book = productsResponse.filter(product => product.categoryId === this.bookdetail?.categoryId)
 
+      },
+      (error) => {
+        console.error('Lỗi dữ liệu', error);
+      }
+    );
   }
-
+  this.http.get<bookhome[]>(`https://localhost:7009/api/Books`).subscribe(
+    (response) => {
+      this.products = response;
+    },
+    (error) => {
+      console.error('Lỗi khi tải sản phẩm', error);
+    }
+  );
   }
 
   getProductInfo(productId: string): Observable<{ title: string, unitPrice: number,precent: number} | undefined> {
@@ -131,7 +124,7 @@ this.bookdetails.BookDetail().subscribe({
   }
 
   getBookImage(bookId: string): string {
-    const matchingImage = this.imgbook.find((imgbook) => imgbook.bookId === bookId);
+    const matchingImage = this.imgbook.find((imgbook) => imgbook.idBook === bookId);
     return matchingImage ? matchingImage.image0 : '';
   }
   getautor(authorId: string): string {

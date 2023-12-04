@@ -9,8 +9,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { UserComponent } from './pages/user/user.component';
 import { CategoryComponent } from './pages/category/category.component';
 import { ProductComponent } from './pages/product/product.component';
-import { PaymentComponent } from './pages/payment/payment.component';
-import { LoginComponent } from './component/login/login.component';
+import { PaymentComponent } from './pages/payment/payment.component'; 
+// import { LoginComponent } from './component/login/login.component';
 
 import { CartComponent } from './pages/cart/cart.component';
 // Thư viện angular và khác
@@ -37,14 +37,12 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {SlickCarouselModule} from 'ngx-slick-carousel';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ModalComponent} from './component/modal/modal.component';
+
 import {HttpClientModule } from '@angular/common/http';
 import { AddressComponent } from './component/address/address.component';
 import { MapComponent } from './component/map/map.component';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import {environment} from './environments/environment';
+import { HeaderComponent } from './component/header/header.component';
+import { FooterComponent } from './component/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -58,10 +56,12 @@ import {environment} from './environments/environment';
     CategoryComponent,
     PaymentComponent,
     ModalComponent,
-    LoginComponent,
+    // LoginComponent,
     CartComponent,
     AddressComponent,
     MapComponent,
+    HeaderComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,10 +87,10 @@ import {environment} from './environments/environment';
     SlickCarouselModule,
     NgbModule,
     HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule,
-    AngularFirestoreModule,
-    AngularFireStorageModule,
+
+
+
+
   ],
 
   providers: [],

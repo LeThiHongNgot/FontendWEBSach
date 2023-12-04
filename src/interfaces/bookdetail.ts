@@ -1,4 +1,5 @@
 export interface BookDetail {
+  id: string;
   bookId: string;
   categoryId: string;
   dimensions: string;
