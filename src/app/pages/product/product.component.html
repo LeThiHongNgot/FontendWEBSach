@@ -1,0 +1,116 @@
+<div class="product" >
+  <div class="container">
+        <div class="product-content row">
+            <div class="product-left row">
+                <div class="product-left-big-img"*ngIf="img">
+                    <img src="{{img.image0}}" alt="">
+                </div>
+                <div class="product-left-small-img"*ngIf="img">
+                    <img src="{{img.image0}}" alt="">
+                    <img src="{{img.image1}}" alt="">
+                    <img src="{{img.image2}}" alt="">
+                    <img src="{{img.image3}}" alt="">
+                </div>
+            </div>
+            <div class="product-right"  *ngIf="product">
+              <div class="product-right-name" >
+                <h1>{{ product.title }}</h1>
+              </div>
+              <div class="product-right-price">
+                <p>{{percent1(product.unitPrice,product.pricePercent) | number:'1.0-0'}}<sup>đ</sup></p>
+              </div>
+              <div class="gg">
+                <p>{{ product.unitPrice | number:'1.0-0' }}<sup>đ</sup></p>
+                <p>{{percent2(product.pricePercent)}}</p>
+              </div>
+              <div class="product-right-inf">
+                <p>Nhà xuất bản: <span>{{ getsupplier(product.supplierId)}}</span></p>
+                <p>Tác giả: <span>{{ getautor(product.authorId) }}</span></p>
+                <p *ngIf="bookdetail">Thể loại: <span>{{ getcategory(bookdetail.categoryId)}}</span></p>
+              </div>
+              <div class="quantity">
+                <p style="font-weight: bold;">Số lượng</p>
+                <input type="number" min="0" value="1">
+              </div>
+              <div class="product-right-button">
+                <button mat-raised-button>THÊM VÀO GIỎ HÀNG</button>
+                <button mat-raised-button routerLink="/payment">MUA NGAY</button>
+              </div>
+            </div>
+          </div>
+    </div>
+    <div class="container"  *ngIf="product">
+        <div class="product-productdetail">
+            <div class="product-title-top" n>
+                <p>CHI TIẾT SẢN PHẨM </p>
+            </div>
+            <div class="product-productdetail-bottom" *ngIf="bookdetail">
+                <div class="product-productdetail-bottom-inf">
+                    <tbody>
+                        <tr>
+                            <th>Nhà xuất bản</th>
+                            <td >{{ getsupplier(product.supplierId)}}</td>
+                        </tr>
+                        <tr>
+                            <th>Tác giả</th>
+                            <td>{{getautor(product.authorId)}}</td>
+                        </tr>
+                        <tr>
+                            <th>Thể loại</th>
+                            <td >{{getcategory(bookdetail.categoryId)}}</td>
+                        </tr>
+                        <tr>
+                          <th>Số trang</th>
+                          <td >{{bookdetail.pages}}</td>
+                      </tr>
+                      <tr>
+                        <th>Kích thước</th>
+                        <td >{{bookdetail.dimensions}}</td>
+                    </tr>
+                    </tbody>
+                </div>
+                <div class="product-productdetail-bottom-detail" >
+                    <p>{{bookdetail.description}}</p>
+                </div>
+                <!-- <div class="see-more-container">
+                    <button mat-raised-button >Xem thêm</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="container" >
+        <div class="product-relatedproduct">
+            <div class="product-title-top">
+                <p>SẢN PHẨM LIÊN QUAN </p>
+            </div>
+            <div class="product-relatedproduct-bottom">
+              <div class="cartegory-right-bottom-item" *ngFor="let a of book.slice(0,5)" (click)="navigateToProduct(a.bookId)">
+                <div class="productIMG" >
+                  <img [src]="getBookImage(a.bookId)" alt="" >
+                </div>
+                <h1 >{{ (getProductInfo(a.bookId) | async)?.title }}</h1>
+                <p>{{percent1((getProductInfo(a.bookId) | async)!.unitPrice, (getProductInfo(a.bookId) | async)!.precent)| number:'1.0-0'  }}<sup>đ</sup></p>
+                <div class="product-rating">
+                  <app-star-rating [rating]="5"></app-star-rating>
+                </div>
+              </div>
+              <div class="see-more-container">
+                <button mat-raised-button routerLink="/product">Xem thêm</button>
+              </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- <div class="product-relatedproduct">
+        <div class="product-title-top">
+            <p>ĐÁNH GIÁ SẢN PHẨM</p>
+        </div>
+        <div class="product-productreview-bottom">
+
+        </div>
+    </div> -->
+
+</div>
+
+

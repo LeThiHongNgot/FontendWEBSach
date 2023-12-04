@@ -1,0 +1,93 @@
+<div class="main-payment">
+    <!-- chọn phương thức giao -->
+    <div class="highlighted-products-section">
+        <mat-card class="highlighted-title-card">
+            <mat-card-content style="font-size: 18px; color: #FFF;font-weight: bold;">ĐỊA CHỈ GIAO HÀNG</mat-card-content>
+        </mat-card>
+        <mat-radio-group class="address-options">
+            <div class="address-option">
+                <mat-radio-button>123 Đường ABC, Phường XYZ, TP.HCM</mat-radio-button>
+            </div>
+            <div class="address-option" (click)="isModalVisible = true">
+              <mat-radio-button>Địa chỉ khác</mat-radio-button>
+          </div>
+          <app-address *ngIf="isModalVisible" (closeModalEvent)="isModalVisible = false"></app-address>
+        </mat-radio-group>
+    </div>
+
+
+    <!-- Chọn phương thức vận chuyển -->
+    <div class="highlighted-products-section">
+        <mat-card class="highlighted-title-card">
+            <mat-card-content style="font-size: 18px; color: #FFF;font-weight: bold;">PHƯƠNG THỨC VẬN CHUYỂN</mat-card-content>
+        </mat-card>
+        <mat-radio-group class="address-options">
+            <div class="address-option">
+                <mat-radio-button>Giao hàng tiêu chuẩn (3 ngày)</mat-radio-button>
+            </div>
+            <div class="address-option">
+                <mat-radio-button>Giao hàng nhanh (1 ngày)</mat-radio-button>
+            </div>
+        </mat-radio-group>
+    </div>
+
+    <!-- Chọn phương thức thanh toán -->
+    <div class="highlighted-products-section">
+        <mat-card class="highlighted-title-card">
+            <mat-card-content style="font-size: 18px; color: #FFF;font-weight: bold;">PHƯƠNG THỨC THANH TOÁN</mat-card-content>
+        </mat-card>
+        <mat-radio-group class="address-options">
+            <div class="address-option">
+                <mat-radio-button>Thanh toán với ví ZaloPay</mat-radio-button>
+                <img src="assets/payment/zalopay.png" alt="zalopay img" class="payment-img">
+            </div>
+            <div class="address-option">
+                <mat-radio-button>Thanh toán với ví MOMO</mat-radio-button>
+                <img src="assets/payment/momo.png" alt="momo ing" class="payment-img">
+            </div>
+            <div class="address-option">
+                <mat-radio-button>Thanh toán với thẻ tín dụng</mat-radio-button>
+                <div class="credit-card-logos">
+                    <img src="assets/payment/tech.png" alt="tech img" class="payment-img">
+                    <img src="assets/payment/vcbank.png" alt="vcbank img" class="payment-img">
+                </div>
+            </div>
+            <div class="address-option">
+                <mat-radio-button>Thanh toán khi nhận hàng</mat-radio-button>
+            </div>
+        </mat-radio-group>
+    </div>
+
+
+    <!-- Kiểm tra đơn hàng -->
+    <div class="highlighted-products-section">
+        <mat-card class="highlighted-title-card">
+            <mat-card-content style="font-size: 18px; color: #FFF;font-weight: bold;">PHƯƠNG THỨC VẬN CHUYỂN</mat-card-content>
+        </mat-card>
+    <div class="check-order">
+        <table>
+            <tr>
+                <th></th>
+                <th>Tên sản phẩm</th>
+                <th>Đơn giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+            </tr>
+            <tr>
+              <td><img src="assets/product-detail/product-small-0.jpg" alt=""></td>
+              <td>Tên sản phẩm</td>
+              <td>44.200<sup>đ</sup></td>
+              <td>2</td>
+              <td>88.400<sup>đ</sup></td>
+            </tr>
+            <tr>
+              <td><img src="assets/categoryimg/categoryimg1.jpg" alt=""></td>
+              <td>Tên sản phẩm</td>
+              <td>44.200<sup>đ</sup></td>
+              <td>2</td>
+              <td>88.400<sup>đ</sup></td>
+            </tr>
+          </table>
+    </div>
+    </div>
+</div>

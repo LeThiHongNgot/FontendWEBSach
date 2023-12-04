@@ -1,0 +1,63 @@
+<div class="modal-overlay" [ngClass]="{ 'show-modal': isModalVisible }" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="form-register">
+          <p class="modal-title">THÊM MỚI ĐỊA CHỈ GIAO HÀNG</p>
+          <table class="address-table">
+              <!-- Ho ten -->
+              <tr>
+                  <td class="label-td">Họ và tên người nhận</td>
+                  <td><input class="input-full-width" matInput placeholder="Họ và tên người nhận"></td>
+              </tr>
+              <!-- SDT -->
+              <tr>
+                  <td class="label-td">Số điện thoại</td>
+                  <td><input class="input-full-width" matInput placeholder="Ví dụ: 0973xxxxxx (10 ký tự số)"></td>
+              </tr>
+              <!-- Tinh -->
+              <tr>
+                  <td class="label-td">Tỉnh/Thành Phố</td>
+                  <td>
+                      <select>
+                          <option value="1">TP.Hồ Chí Minh</option>
+                          <option value="2">Đà Nẵng</option>
+                          <option value="3">Hà Nội</option>
+                      </select>
+                  </td>
+              </tr>
+              <!-- Quan -->
+              <tr>
+                  <td class="label-td">Quận/Huyện</td>
+                  <td>
+                      <select>
+                          <option value="1">Quận 1</option>
+                          <option value="2">Quận 2</option>
+                          <option value="3">Quận 3</option>
+                          <option value="4">Quận 4</option>
+                          <option value="5">Tân Bình</option>
+                          <option value="6">Phú Nhuận</option>
+                      </select>
+                  </td>
+              </tr>
+              <!-- Phuong -->
+              <tr>
+                  <td class="label-td">Phường/Xã</td>
+                  <td>
+                      <select>
+                          <option value="1">Phường 1</option>
+                          <option value="2">Phường 2</option>
+                      </select>
+                  </td>
+              </tr>
+              <!-- Dia Chi -->
+              <tr>
+                  <td class="label-td">Địa chỉ nhận hàng</td>
+                  <td><input class="input-full-width" matInput placeholder="Nhập địa chỉ nhận hàng"></td>
+              </tr>
+          </table>
+          <div class="button-container">
+              <button class="save-button">Lưu địa chỉ</button>
+              <button class="cancel-button" (click)="closeModal()">Huỷ</button>
+          </div>
+      </div>
+  </div>
+</div>

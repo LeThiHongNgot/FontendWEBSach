@@ -1,0 +1,33 @@
+<<div class="modal-overlay" (click)="closelogin()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="form-login">
+      <div class="login">
+        <img src="assets/login-logout/login.jpg" alt="">
+        <div class="div-btn-login">
+          <button class="btn" (click)="isloginVisible = true">Đăng ký</button>
+          <app-login *ngIf="isloginVisible" (closeloginEvent)="isloginVisible = false"></app-login>
+          <h1 class="span-lgtr-right">Đăng nhập</h1>
+        </div>
+    </div>
+
+      <div class="login">
+        <div class="logo">
+          <img src="assets/logo.png" alt="">
+        </div>
+        <!-- <hr> -->
+        <div class="infomation-login">
+          <label class="lblhover" for="">Số điện thoại</label>
+          <input class="input-login" type="text" >
+          <label class="lblhover" for="password">Mật khẩu</label>
+          <input class="input-login" type="password" id="password">
+        </div>
+        <div class="remember">
+          <input type="checkbox"style="margin-right:5px;">
+          <label style="margin-right:70px;">Nhớ mật khẩu</label>
+          <label>Quên mật khẩu</label>
+        </div>
+        <button class="btn btn-login" >Đăng nhập</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,147 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999; /* high z-index to make sure it's on top */
+}
+
+.modal-content {
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: auto;
+  width: 50%;
+}
+.form-login {
+  display: flex;
+  align-items: stretch; 
+  width: 100%;
+}
+.remember
+{
+  width: 80%;
+  margin-left: 10%;
+  margin-right:10%;
+}
+.form-login.login {
+  width: 50%; 
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+}
+.form-login .login:nth-child(1)
+{
+  position: relative;
+display: grid;
+width: 50%;
+background-color: rgb(235, 229, 220);
+}
+
+.form-login .login:nth-child(1)>img
+{ grid-column: 1;
+grid-row: 1;
+width: 100%;
+}
+
+.form-login .login:nth-child(1) .div-btn-login
+{
+  position: absolute;
+  top: 10px;    
+  right: 10px;
+}
+
+.form-login .login:nth-child(2)
+{
+width: 50%;
+background-color:  #ffffff;
+}
+.login:nth-child(2) .logo
+{
+  margin-top: 15px;
+  display: flex;
+  height: 10%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.login:nth-child(2) .logo >img
+{
+height: 100%;
+/* width: 100%; */
+transition: filter 0.3s;
+}
+.login:nth-child(2) .logo > img:hover {
+filter: brightness(1.2);
+box-shadow: #000;
+}
+.login:nth-child(2) .infomation-login
+{
+  margin-top: 100px;
+width: 80%;
+margin-left: 9%;
+margin-right: 9%;
+}
+/*  */
+
+.btn{
+color: #000;
+}
+.span-lgtr-right
+{
+background-color: #ffffff;
+height: 30px;
+width: 100px;
+color: #000;
+font-size: 20px;
+align-items: center;
+text-align: center;
+}
+.btn-login
+{
+margin-top: 5%;
+margin-left: 30%;
+margin-right: 30%;
+width: 40%;
+height: 40px;
+background-color:rgba(192, 213, 228, 1);
+border-radius: 5px;
+}
+.input-login
+{
+margin-bottom: 10px;
+margin-top:10px;
+width: 100%;
+
+}
+
+.input-login:focus {
+box-shadow: 0 0 10px rgb(164, 191, 210);
+}
+/* .input-container:hover .input-login {
+border: none;
+}
+.lblhover {
+  font-size: 16px;
+  transition: font-size 0.3s, filter 0.3s;
+}
+
+.lblhover:hover {
+  font-size: 18px;
+  filter: brightness(1.2);
+} */
+
+.form-login .login > img {
+  object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.form-login .login:nth-child(1) .div-btn-login .btn {
+    margin-bottom: 10px;   /* khoảng cách giữa nút và tiêu đề */
+}
