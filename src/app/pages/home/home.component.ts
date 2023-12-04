@@ -4,9 +4,6 @@ import { bookhome } from '../../../interfaces/bookhome';
 import { Router } from '@angular/router';
 import { bookimg } from '../../../interfaces/bookimg';
 import { Author } from '../../../interfaces/Author';
-import { BooksService } from 'src/services/Books/books.service';
-import { BookImgsService } from 'src/services/BookImgs/bookimgs.service';
-import { AuthorsService } from 'src/services/Authors/authors.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -19,33 +16,36 @@ export class HomeComponent{
   'assets/banner/childrenbook.jpg',
   'assets/banner/manga.jpg',
   ]
-  constructor(private http: HttpClient,private router: Router,private bookImgs: BookImgsService, private books: BooksService,
-    private authors:AuthorsService) {}
-  Books: bookhome[] = [];
+  constructor(private http: HttpClient,private router: Router) {}
+  dt: bookhome[] = [];
   img: bookimg[]=[];
   author:Author |null=null;
   ngOnInit() {
+    // Make a GET request to fetch book data
+    this.http.get<bookhome[]>('https://localhost:7009/api/Books').subscribe(
+      (response) => {
+        this.dt = response;
 
-    this.books.Books().subscribe({
-      next:(res)=>{
-        this.Books=res
       },
-      error:(err)=>{
-        console.error('Lỗi lấy dữ liệu ',err);
+      (error) => {
+        console.error('Lỗi khi lấy dữ liệu ', error);
+      }
+    );
+    this.http.get<bookimg[]>(`https://localhost:7009/api/Bookimgs?`).subscribe(
+      (response) => {
+        // Store the image in the img object with the book ID as the key
+        if (response) {
+          this.img = response;
+        }
       },
-    });
-    this.bookImgs.BookImg().subscribe({
-      next: (res) => {
-        this.img=res
-      },
-      error: (err) => {
-        alert('Vui lòng nhập đúng thông tin');
-      },
-    });
+      (error) => {
+        console.error('Lỗi khi lấy dữ liệu', error);
+      }
+);
 
 }
   getBookImage(bookId: string): string {
-    const matchingImage = this.img.find((img) => img.bookId === bookId);
+    const matchingImage = this.img.find((img) => img.idBook === bookId);
     return matchingImage ? matchingImage.image0 : ''; // Return the image URL if found, otherwise an empty string
   }
   navigateToProduct(productId: string) {
