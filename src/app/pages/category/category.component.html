@@ -9,18 +9,16 @@
             <div class="cartegory-left-bottom">
               <div class="cartegory-left-bottom-price">
                 <p>Giá</p>
-                <mat-radio-group ng-model="data.group1"  (change)="filterProductsByPrice($event.value)">
-                    <mat-radio-button value="">Tất cả</mat-radio-button>
-                    <mat-radio-button value="1" >0đ - 100.000đ</mat-radio-button>
-                    <mat-radio-button value="2"> 100.000đ - 200.000đ</mat-radio-button>
-                    <mat-radio-button value="3">200.000đ - 300.000đ</mat-radio-button>
+                <mat-radio-group ng-model="data.group1">
+                    <mat-radio-button value="" >0đ - 100.000đ</mat-radio-button>
+                    <mat-radio-button value=""> 100.000đ - 200.000đ</mat-radio-button>
+                    <mat-radio-button value="">200.000đ - 300.000đ</mat-radio-button>
                 </mat-radio-group>
               </div>
               <div class="cartegory-left-bottom-author">
                 <p>Tác Giả</p>
-              <mat-radio-group ng-model="data.group2" (change)="filterProductsByAuthor($event.value)">
-                  <mat-radio-button value="">Tất cả</mat-radio-button>
-                  <mat-radio-button *ngFor="let authorId of uniqueAuthorIds" [value]="authorId">{{getautor(authorId)}}</mat-radio-button>
+              <mat-radio-group *ngFor="let product of dt" ng-model="data.group2">
+                  <mat-radio-button value="">{{getautor(product.authorId)}}</mat-radio-button>
               </mat-radio-group>
               </div>
 
@@ -29,13 +27,14 @@
         </div>
         <div class="cartegory-right">
 
-            <div class="cartegory-right-top" *ngIf="category">
-                <p>SÁCH {{category.name.toUpperCase()}}</p>
+            <div class="cartegory-right-top">
+                <p>SÁCH NGOẠI NGỮ</p>
             </div>
             <div class="cartegory-right-bottom select">
                 <mat-form-field>
                     <mat-label>Sắp xếp theo giá</mat-label>
-                    <mat-select (selectionChange)="sortProducts($event.value)">
+                    <mat-select disableRipple>
+                        <mat-option value="3"></mat-option>
                         <mat-option value="1">Từ thấp đến cao</mat-option>
                         <mat-option value="2">Từ cao đến thấp</mat-option>
                     </mat-select>
@@ -58,3 +57,4 @@
 </div>
 <app-footer></app-footer>
 
+<app-footer></app-footer>

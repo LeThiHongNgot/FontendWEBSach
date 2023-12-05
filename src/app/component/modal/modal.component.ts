@@ -1,6 +1,7 @@
-import { Component, Output, EventEmitter, Renderer2, ElementRef, HostListener,NgZone } from '@angular/core';
+import { Component, Output, EventEmitter, Renderer2, ElementRef, HostListener } from '@angular/core';
+import emailjs from '@emailjs/browser';
 import { Router } from '@angular/router';
-import {Customer} from '../../../interfaces/Customer';
+import {Customer} from './Customer';
 import { CustomerService } from 'src/services/customer/customer.service';
 import 'firebase/auth';
 import { OtpService } from 'src/services/Authors/otp/otp.service';
@@ -91,6 +92,22 @@ export class ModalComponent {
     {
       this.showPasswordConfirm=!this.showPasswordConfirm;
     }
+      //--------Chuyển đổi ký tự------//
+
+    ngOnInit() {  // Tạo yêu cầu GET đến URL của máy chủ để lấy dữ liệu
+
+    }
+    //--------------------------Xác nhận email-----------------------//
+    // async send()
+    // {
+    //   emailjs.init('2UYX4H7eptXrQoreQ');
+    //  let response=await emailjs.send("service_b01dw98","template_h6kn0rj",{
+    //   from_name:this.DataRegister.username,
+    //   to_name: "KANN BOOK STORE",
+    //   code: "1242",
+    //   });
+    // }
+    //------------Sự kiện----------//
     eyeError()
     {
         this.errorPassword=kiemTraMucDoManhMatKhau(this.DataRegister.password)
@@ -106,6 +123,59 @@ export class ModalComponent {
   // ------------------------------------------------------------------//
     register()
     {
+      if(this.DataRegister.email==null||this.DataRegister.email=="")
+    {
+      console.log(this.DataRegister.email)
+        this.emailnull=true;
+    }else
+    {
+      this.emailnull=false;
+      if(!CheckFormatEmail(this.DataRegister.email))
+      {
+       this. errorMessageEmail='Email không chính xác!';
+      }
+    }
+     if(this.DataRegister.username==null||this.DataRegister.username=="")
+    {
+        this.namenull=true;
+    }else
+    {
+      this.namenull=false;
+    }
+    if(this.DataRegister.phone==null||this.DataRegister.phone=="")
+    {
+        this.phonenull=true;
+    }else
+    {
+      this.phonenull=false;
+      if(!CheckPhoneNumber(this.DataRegister.phone))
+     {
+      this.errorMessagePhone='Số điện thoại không chính xác!';
+     }
+
+    }
+    if(this.DataRegister.password==null||this.DataRegister.password=="")
+    {
+      this.passnull=true;
+      this.eye=false;
+    }else
+    {
+      this.passnull=false;
+      this.eye=true;
+    }
+    if(this.DataRegister.confirmPassword==null||this.DataRegister.confirmPassword=="")
+    {
+      this.passConfirmNull=true;
+      this.eyeConfirm=false;
+    }else
+    {
+      this.passConfirmNull=false;
+      this.eyeConfirm=true;
+      if(!(this.DataRegister.password==this.DataRegister.confirmPassword))
+      {
+       this.errorConfirmPassword='Mật khẩu không khớp!';
+      }
+    }
     this.changeid= ChangeID(this.DataRegister.phone);
     const datasignup = {
       id: this.changeid,
@@ -237,54 +307,114 @@ export class ModalComponent {
   // Sử dụng hàm kiểm tra
    // In ra true nếu mật khẩu hợp lệ, ngược lại in ra false
 
- //   if(this.DataRegister.email==null||this.DataRegister.email=="")
-    // {
-    //     this.emailnull=true;
-    // }else
-    // {
-    //   this.emailnull=false;
-    //   if(!CheckFormatEmail(this.DataRegister.email))
-    //   {
-    //    this. errorMessageEmail='Email không chính xác!';
+    // //check email có tồn tại chưa
+    // checkDuplicateEmail(email: string): boolean {
+    //   const filteredCustomers = this.dt.filter((dt) => dt.email !== 'abc@gmail.com');
+    //   return filteredCustomers.some((dt) => dt.email === email);
+    // }
+    // checkDuplicate(phone: string): boolean {
+    //   return this.dt.some((dt) => {
+    //     return dt.phone === phone;
+    //   });
+    // }
+
+    // isChecking: boolean = false;
+    // check() {
+    //   let isSuccess = false;
+    //   let p = ''; // Sử dụng let thay vì const
+    //   let t = ''; // Sử dụng let thay vì const
+
+    //   for (const dt of this.dt) {
+    //     const cleanPhone = dt.phone.trim();
+    //     const cleanPassword = dt.password.trim();
+
+    //     if (cleanPhone === this.cus.sdt && cleanPassword === this.cus.pass) {
+    //       isSuccess = true;
+    //       p = cleanPhone; // Gán giá trị mới cho p
+    //       t = cleanPassword; // Gán giá trị mới cho t
+    //       break;
+    //     }
+
+    //     if (isSuccess) {
+    //       break;
+    //     }
+    //   }
+
+    //   console.log(p);
+    //   console.log(t);
+
+    //   if (isSuccess) {
+    //     alert('Đăng nhập thành công');
+    //   } else {
+    //     alert('Đăng nhập không thành công');
     //   }
     // }
-    //  if(this.DataRegister.username==null||this.DataRegister.username=="")
-    // {
-    //     this.namenull=true;
-    // }else
-    // {
-    //   this.namenull=false;
-    // }
-    // if(this.DataRegister.phone==null||this.DataRegister.phone=="")
-    // {
-    //     this.phonenull=true;
-    // }else
-    // {
-    //   this.phonenull=false;
-    //   if(!CheckPhoneNumber(this.DataRegister.phone))
-    //  {
-    //   this.errorMessagePhone='Số điện thoại không chính xác!';
-    //  }
-    // }
-    // if(this.DataRegister.password==null||this.DataRegister.password=="")
-    // {
-    //   this.passnull=true;
-    //   this.eye=false;
-    // }else
-    // {
-    //   this.passnull=false;
-    //   this.eye=true;
-    // }
-    // if(this.DataRegister.confirmPassword==null||this.DataRegister.confirmPassword=="")
-    // {
-    //   this.passConfirmNull=true;
-    //   this.eyeConfirm=false;
-    // }else
-    // {
-    //   this.passConfirmNull=false;
-    //   this.eyeConfirm=true;
-    //   if(!(this.DataRegister.password==this.DataRegister.confirmPassword))
+
+    // register() {
+    //   // Kiểm tra xác nhận mật khẩu
+    //   //!isEmail(this.user.email)&&
+    //   if(!isPhoneNumber(this.user.email))
     //   {
-    //    this.errorConfirmPassword='Mật khẩu không khớp!';
+    //     this.errorMessageEM='Số điện thoại không đúng.'
     //   }
+    //   if (this.user.password !== this.user.confirmPassword) {
+    //     console.log('Mật khẩu không khớp.');
+    //     this.errorMessageMK = 'Mật khẩu không khớp.'
+    //     return;
+    //   }
+    //   let p = '';
+    //   let m = '';
+      // const checkm = this.checkDuplicateEmail(this.user.email);
+      // const checkp=this.checkDuplicate(this.user.email);
+      // if (checkp) {
+      //   console.log('Số điện đã tồn tại.');
+      // } else {
+      //   console.log('Email hợp lệ.');
+      //    if (isPhoneNumber(this.user.email)) {
+      //     p = this.user.email;
+      //     m='abc@gmail.com'
+      //   }
+      // }
+
+      // Tạo đối tượng dữ liệu cần gửi
+      // const data = {
+      //   id: p, // Sử dụng local part của địa chỉ email hoặc số điện thoại
+      //   fullName: this.user.username,
+      //   photo: '',
+      //   activated: '',
+      //   password: this.user.password,
+      //   email: m,
+      //   phone: p,
+      //   carts: [],
+      //   orders: []
+      // };
+
+    //   console.log(data);
+    //   // Gửi dữ liệu đăng ký lên API
+    //   this.http.post('https://localhost:7009/api/Customers', data).subscribe(
+    //     (response) => {
+    //       console.log('Đăng ký thành công', response);
+    //       // Xóa dữ liệu sau khi đăng ký
+    //       this.user = {};
+    //       // this.router.navigate(['modal']);
+    //       this.loggedIn = false;
+
+    //     },
+    //     (error) => {
+    //       alert('Đăng ký không thành công vui lòng kiễm tra lại thông tin đăng nhập');
+    //     }
+    //   );
     // }
+
+//}
+
+
+     // if (isEmail(this.user.email)) {
+      //   const parts = this.user.email.split('@'); // Tách địa chỉ email thành phần local part và domain
+      //   if (parts.length === 2) {
+      //     p = parts[0]; // Lấy phần local part
+      //     m = this.user.email;
+      //   }
+      // } else
+
+

@@ -1,11 +1,14 @@
 <div class="modal-overlay" (click)="closeModal()">
-  <div class="modal-content" id="formregister" style="display:none;" (click)="$event.stopPropagation()">
-            <div class="form-register" >
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <mat-tab-group>
+      <mat-tab label="Đăng kí"*ngIf="loggedIn">
+            <div class="form-register">
               <div class="register-left">
-                <div class="logo" >
-                   <img src="assets/logo.png" alt="">
+                <div class="logo">
+                  <img src="assets/logo.png" alt="">
                 </div>
                 <div class="infomation-register">
+<<<<<<< HEAD
                   <label class="lblhover" for="phone">Số điện thoại</label>
                   <div class="form-input" ><input class="input-register" style="width: 72%;" type="text" [(ngModel)]="DataRegister.phone" name="phone"><div class="send-otp" (click)="sendOTP()">Gửi mã otp</div></div>
                   <div *ngIf="errorMessagePhone" class="error-message">
@@ -13,14 +16,26 @@
                   </div>
                   <label class="lblhover" for="otp">Mã Otp</label>
                   <div class="form-input"> <input class="input-register" (keyup)="verifyOTP($event)" [disabled]="isInputDisabledOpt" autocomplete="false" type="text" [(ngModel)]="DataRegister.otp" name="otp"></div>
+=======
+                  <label class="lblhover" for="username">Tên đăng nhập</label>
+                  <div class="form-input"><input class="input-register" type="text" autocomplete="false" [(ngModel)]="DataRegister.username" name="username"><mat-icon *ngIf="namenull" style="color: red;">error_outline</mat-icon></div>
+                  <label class="lblhover" for="email">Email</label>
+                  <div class="form-input"> <input class="input-register" autocomplete="false" type="text" [(ngModel)]="DataRegister.email" name="email"><mat-icon *ngIf="emailnull" style="color: red;">error_outline</mat-icon></div>
+>>>>>>> fd9b1d4b83c4e801602d9db9bbca2b35c822a340
                   <div *ngIf="errorMessagePhone" class="error-message">
                     {{ errorMessageEmail }}
                   </div>
-                  <label class="lblhover" for="username">Tên đăng nhập</label>
-                  <div class="form-input"><input class="input-register" [disabled]="isInputDisabled" type="text" autocomplete="false" [(ngModel)]="DataRegister.username" name="username"></div>
+
+                  <label class="lblhover" for="phone">Số điện thoại</label>
+                  <div class="form-input"><input class="input-register"autocomplete="false" type="text" [(ngModel)]="DataRegister.phone" name="phone"><mat-icon *ngIf="phonenull"style="color: red;">error_outline</mat-icon></div>
+                  <div *ngIf="errorMessagePhone" class="error-message">
+                    {{ errorMessagePhone}}
+                  </div>
+
                   <label class="lblhover" for="password">Mật khẩu</label>
                   <div class="form-input">
-                    <input [disabled]="isInputDisabled" class="input-register" (keyup)="eyeError()" autocomplete="false" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="DataRegister.password" name="password">
+                    <input class="input-register" (keyup)="eyeError()" autocomplete="false" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="DataRegister.password" name="password">
+                    <mat-icon *ngIf="passnull" style="color: red;">error_outline</mat-icon>
                     <mat-icon *ngIf="eye" (click)="togglePasswordVisibility()">
                       {{ showPassword ? 'visibility' : 'visibility_off' }}
                     </mat-icon>
@@ -30,7 +45,8 @@
                   </div>
                   <label class="lblhover" for="confirm_password">Xác nhận mật khẩu</label>
                     <div class="form-input">
-                      <input [disabled]="isInputDisabled" class="input-register" (keyup)="eyeConfirmError()" autocomplete="false" [type]="showPasswordConfirm ? 'text' : 'password'" [(ngModel)]="DataRegister.confirmPassword" name="confirm_password">
+                      <input class="input-register" (keyup)="eyeConfirmError()" autocomplete="false" [type]="showPasswordConfirm ? 'text' : 'password'" [(ngModel)]="DataRegister.confirmPassword" name="confirm_password">
+                      <mat-icon *ngIf="passConfirmNull" style="color: red; margin-right: 5px;">error_outline</mat-icon>
                       <mat-icon *ngIf="eyeConfirm" (click)="togglePasswordConfirmVisibility()">
                         {{ showPasswordConfirm ? 'visibility' : 'visibility_off' }}
                       </mat-icon>
@@ -45,16 +61,38 @@
               </div>
                 <div class="register-right">
                   <img src=" assets/login-logout/register.jpg" alt="" >
-                  <div class="text-welcome">
-                    <div id="phone"></div>
-                    <span style="color: #fbf9f9 ; font-weight: bold; font-size: 26px;" >Chào mừng bạn đến với <br>KANN bookstore</span>
-                    <br><br>
-                    <p>Nếu đã có tài khoản vui lòng đăng nhập</p>
-                  </div>
-                  <button class="btn-dn" (click)="FormLoginRegister()">Đăng nhập</button>
                 </div>
             </div>
+        </mat-tab>
+        <!-- ----------------dang nhap------------------ -->
+        <mat-tab label="Đăng nhập" >
+            <div class="form-login">
+              <div class="login-left">
+                <img src=" assets/login-logout/login.jpg" alt="" >
+
+              </div>
+              <div class="login-right">
+                  <div class="logo">
+                    <img src="assets/logo.png" alt="">
+                  </div>
+                  <div class="infomation-login">
+                    <label class="lblhover" for="">Số điện thoại</label>
+                    <input  [(ngModel)]="DataRegister.sdt" name="sdt" type="text" class="input-login" >
+                    <label class="lblhover"  for="">Mật khẩu</label>
+                    <input [(ngModel)]="DataRegister.pass" name="pass" type="password"class="input-login" >
+                  </div>
+                  <div class="remember">
+                    <input type="checkbox"style="margin-right:5px;">
+                    <label style="margin-right:70px; " >Nhớ mật khẩu</label>
+                    <label>Quên mật khẩu</label>
+                  </div>
+                  <button class="btn btn-login" >Đăng nhập</button>
+                </div>
+            </div>
+          </mat-tab>
+      </mat-tab-group>
   </div>
+<<<<<<< HEAD
   <div class="modal-content" id="formlogin" (click)="$event.stopPropagation()">
     <!-- ----------------dang nhap------------------ -->
     <div class="form-login" >
@@ -86,9 +124,7 @@
        </div>
    </div>
    </div>
+=======
+>>>>>>> fd9b1d4b83c4e801602d9db9bbca2b35c822a340
 </div>
-
-
-
-
 

@@ -1,6 +1,7 @@
 export interface bookimg
 {
-    bookId: string,
+  id: string,
+    idBook: string,
     image0: string,
     image1: string,
     image2: string,

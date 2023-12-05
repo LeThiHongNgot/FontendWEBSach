@@ -8,7 +8,7 @@ export class AuthorsService {
   private baseUrl: string = 'https://localhost:7009/api/';
   constructor(private http: HttpClient, private router: Router) {
    }
-  Authors() {
-    return this.http.get<any>(`${this.baseUrl}Authors`)
+  Authors(AuthorsObj: any) {
+    return this.http.post<any>(`${this.baseUrl}Authors`, AuthorsObj)
   }
 }

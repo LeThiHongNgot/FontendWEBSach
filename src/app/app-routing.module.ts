@@ -7,8 +7,8 @@ import { ProductComponent } from './pages/product/product.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { ModalComponent } from './component/modal/modal.component';
-import { LoginComponent } from './component/login/login.component';
 import { AdminComponent } from './pages/admin/admin.component';
+
 
 
 
@@ -47,14 +47,18 @@ const routes: Routes=[
     path:'payment',
     component: PaymentComponent,
     },
-{
+    {
     path:'produc/:id',
     component: ProductComponent,
     },
+    {
+    path:'admin',
+    component: AdminComponent,
+    },
     { path: 'modal', component: ModalComponent},
-    { path: 'login', component: LoginComponent},
-    { path:'admin', component: AdminComponent},
-    { path: 'category/:id', component: CategoryComponent},
+    
+
+
 ]
 
 @NgModule({
