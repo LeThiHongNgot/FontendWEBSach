@@ -4,6 +4,8 @@ import {Customer} from '../../../interfaces/Customer';
 import { CustomerService } from 'src/services/customer/customer.service';
 import 'firebase/auth';
 import { OtpService } from 'src/services/Authors/otp/otp.service';
+import { CustomermainService } from 'src/services/customermain/customermain.service';
+import { SharedataService } from 'src/services/sharedata/sharedata.service';
 
 @Component({
   selector: 'app-modal',
@@ -18,33 +20,47 @@ export class ModalComponent {
     errorMessagePhone:string ='';
     errorMessageEmail:string ='';
     errorConfirmPassword:string='';
-    namenull:boolean=false;
-    emailnull:boolean=false;
-    phonenull:boolean=false;
-    passnull:boolean=false;
+    errorPassword:string='';
     passConfirmNull:boolean=false;
     eye:boolean=true;
     eyeConfirm:boolean=true;
     changeid:string='';
-    loggedIn: boolean = true;
     reCaptchaVerifier!: any;
-    constructor( private customer: CustomerService, private router: Router,private el: ElementRef, private renderer: Renderer2, private otpService: OtpService) {}
-   isInputDisabled :boolean=true;
+    constructor( private customermain:CustomermainService,
+      private customer: CustomerService, private router: Router,private el: ElementRef,
+       private renderer: Renderer2, private otpService: OtpService,
+       private sharedata:SharedataService) {}
+    isInputDisabled :boolean=false;
     isInputDisabledOpt:boolean=true;
     verificationId: string = '';
 
   sendOTP() {
-    if(!CheckPhoneNumber(this.DataRegister.phone))
-     {
-      this.errorMessagePhone='Số điện thoại không chính xác!';
-     }else{
-      const phone = this.DataRegister.phone.substring(1);
-      this.otpService.sendOTP(`+84${this.DataRegister.phone}`).then((result) => {
-        this.verificationId = result.verificationId;
-        this.isInputDisabledOpt=false;
-        console.log(this.verificationId)
-      });
-     }
+   const changephoneid=ChangeID(this.DataRegister.phone);
+   if(!CheckPhoneNumber(this.DataRegister.phone))
+   {
+    this.errorMessagePhone = 'Số điện thoại không chính xác!';
+    }else
+    {
+
+     this.customermain.CustomerId(changephoneid).subscribe(
+       {
+         next: (res) => {
+        const phone = this.DataRegister.phone.substring(1);
+        this.otpService.sendOTP(`+84${phone}`).then((result) => {
+         this.errorMessagePhone="Kiễm tra tin nhắn để nhận mã otp"
+         this.renderer.setStyle(this.errorMessagePhone, 'color', 'green');
+          this.verificationId = result.verificationId;
+          this.isInputDisabledOpt=false;
+          console.log(this.verificationId)
+        });
+         },
+         error: (err) => {
+           this.errorMessagePhone='Số điện thoại này đã được đăng ký';
+
+         }
+       }
+     );
+    }
   }
   verifyOTP(event:any) {
     const inputValue = event.target.value;
@@ -77,10 +93,8 @@ export class ModalComponent {
     }
     eyeError()
     {
-      if(this.DataRegister.password!=null||this.DataRegister.password!=""){
-        this.passnull=false;
-        this.eye=true;
-      }
+        this.errorPassword=kiemTraMucDoManhMatKhau(this.DataRegister.password)
+
     }
     eyeConfirmError()
     {
@@ -93,40 +107,65 @@ export class ModalComponent {
     register()
     {
     this.changeid= ChangeID(this.DataRegister.phone);
-    const data = {
+    const datasignup = {
       id: this.changeid,
       fullName: this.DataRegister.username,
       photo: '',
       activated: true,
       password: this.DataRegister.password,
-      email: this.DataRegister.email,
+      email: 'd@gmail.com',
       phone: this.DataRegister.phone,
       carts: [],
       orders: []
     };
-      this.customer.signUp(data)
+    console.log(datasignup)
+    if(!(this.DataRegister.password==this.DataRegister.confirmPassword))
+     {
+       this.errorConfirmPassword='Mật khẩu không khớp!';
+     }else
+     {
+      this.customer.signUp(datasignup)
       .subscribe({
         next:(res=>{
           console.log(res.message);
           this.DataRegister={};
-          // this.router.navigate(['modal']);
-           this.loggedIn = false;
-          alert(res.message)
+          this.router.navigate(['user']);
         }),
         error:(err=>{
           alert("Vui lòng nhập đúng thông tin ")
         })
       })
+     }
+
     }
-    
-    checkDuplicateEmail(email: string): boolean {
-      const filteredCustomers = this.dt.filter((dt) => dt.email !== 'abc@gmail.com');
-      return filteredCustomers.some((dt) => dt.email === email);
-    }
-    checkDuplicate(phone: string): boolean {
-      return this.dt.some((dt) => {
-        return dt.phone === phone;
-      });
+    login()
+    {
+      const datasignin=
+      {
+      id: "",
+      fullName: "",
+      photo:"",
+      activated: true,
+      password:this.Datalogin.passLogin,
+      email:"",
+      phone:this.Datalogin.phoneLogin,
+      carts: [],
+      };
+      console.log(this.Datalogin)
+      this.customer.signIn(datasignin).subscribe(
+        {
+            next:(res=>{
+              console.log(res.message);
+              this.sharedata.changeItemId(ChangeID(this.Datalogin.phoneLogin));
+              this.Datalogin={};
+              this.router.navigate(['home']);
+
+            }),
+            error:(err=>{
+              alert(" Đăng nhập không thành công ")
+            })
+          }
+      )
     }
     FormLoginRegister() {
       const formRegisterElement = this.el.nativeElement.querySelector('#formregister');
@@ -142,6 +181,7 @@ export class ModalComponent {
     }
 
   }
+
   //---------------------Tạo function--------------------------------//
   function CheckPhoneNumber(phone: string): boolean {
     const regex = /^(0|\+84)[1-9]\d{8}$/;
@@ -152,10 +192,50 @@ export class ModalComponent {
     return emailRegex.test(input);
   }
   function ChangeID(chuoi: string): string {
-    // Sử dụng phương thức replace với biểu thức chính quy để thay thế tất cả các số
-    return chuoi.replace(/\d/g, (so) => String.fromCharCode(parseInt(so) + 65));
+    // Kiểm tra xem chuoi có phải là một chuỗi hợp lệ không
+    if (typeof chuoi === 'string') {
+      // Sử dụng phương thức replace với biểu thức chính quy để thay thế tất cả các số
+      return chuoi.replace(/\d/g, (so) => String.fromCharCode(parseInt(so) + 65));
+    } else {
+      // Xử lý trường hợp chuoi không phải là chuỗi
+      console.error('Đầu vào không phải là một chuỗi hợp lệ.');
+      return ''; // hoặc giá trị mặc định khác tùy thuộc vào yêu cầu của bạn
+    }
   }
 
+  function kiemTraMucDoManhMatKhau(matKhau: string): string {
+    // Kiểm tra chiều dài
+    if (matKhau.length < 8) {
+      return 'Yếu';
+    } else if (matKhau.length < 12) {
+      return 'Trung bình';
+    }
+    // Kiểm tra ký tự đặc biệt
+    const kyTuDacBiet = /[!@#$%^&*(),.?":{}|<>]/;
+    if (!kyTuDacBiet.test(matKhau)) {
+      return 'Trung bình';
+    }
+
+    // Kiểm tra chữ cái (chữ hoa và chữ thường)
+    const coChuHoa = /[A-Z]/;
+    const coChuThuong = /[a-z]/;
+    if (!coChuHoa.test(matKhau) || !coChuThuong.test(matKhau)) {
+      return 'Trung bình';
+    }
+
+    // Kiểm tra số
+    const coSo = /\d/;
+    if (!coSo.test(matKhau)) {
+      return 'Trung bình';
+    }
+
+    // Nếu vượt qua tất cả các kiểm tra, mật khẩu được coi là mạnh
+    return 'Mạnh';
+  }
+
+
+  // Sử dụng hàm kiểm tra
+   // In ra true nếu mật khẩu hợp lệ, ngược lại in ra false
 
  //   if(this.DataRegister.email==null||this.DataRegister.email=="")
     // {

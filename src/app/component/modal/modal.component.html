@@ -12,7 +12,7 @@
                     {{ errorMessagePhone}}
                   </div>
                   <label class="lblhover" for="otp">Mã Otp</label>
-                  <div class="form-input"> <input class="input-register" (keyup)="verifyOTP($event)" [disabled]="isInputDisabledOpt" autocomplete="false" type="text" [(ngModel)]="DataRegister.otp" name="otp"><mat-icon *ngIf="emailnull" style="color: red;">error_outline</mat-icon></div>
+                  <div class="form-input"> <input class="input-register" (keyup)="verifyOTP($event)" [disabled]="isInputDisabledOpt" autocomplete="false" type="text" [(ngModel)]="DataRegister.otp" name="otp"></div>
                   <div *ngIf="errorMessagePhone" class="error-message">
                     {{ errorMessageEmail }}
                   </div>
@@ -25,6 +25,9 @@
                       {{ showPassword ? 'visibility' : 'visibility_off' }}
                     </mat-icon>
                   </div>
+                  <div *ngIf="errorPassword" class="error-message">
+                    {{ errorPassword }}
+                  </div>
                   <label class="lblhover" for="confirm_password">Xác nhận mật khẩu</label>
                     <div class="form-input">
                       <input [disabled]="isInputDisabled" class="input-register" (keyup)="eyeConfirmError()" autocomplete="false" [type]="showPasswordConfirm ? 'text' : 'password'" [(ngModel)]="DataRegister.confirmPassword" name="confirm_password">
@@ -36,7 +39,7 @@
                       {{ errorConfirmPassword }}
                     </div>
                     <div class="btn-register-div">
-                      <button class="btn-register" (click)="sendOTP()">Đăng ký</button>
+                      <button class="btn-register" (click)="register()">Đăng ký</button>
                     </div>
                 </div>
               </div>
@@ -70,16 +73,16 @@
          </div>
          <div class="infomation-login">
            <label class="lblhover" for="">Số điện thoại</label>
-           <input  [(ngModel)]="DataRegister.sdt" name="sdt" type="text" class="input-login" >
+           <input  [(ngModel)]="Datalogin.phoneLogin" name="phoneLogin" type="text" class="input-login" >
            <label class="lblhover"  for="">Mật khẩu</label>
-           <input [(ngModel)]="DataRegister.pass" name="pass" type="password"class="input-login" >
+           <input [(ngModel)]="Datalogin.passLogin" name="PassLogin" type="password"class="input-login" >
          </div>
          <div class="remember">
            <input type="checkbox"style="margin-right:5px;">
            <label style="margin-right:70px; " >Nhớ mật khẩu</label>
            <label>Quên mật khẩu</label>
          </div>
-         <button class="btn btn-login">Đăng nhập</button>
+         <button class="btn btn-login" (click)="login()">Đăng nhập</button>
        </div>
    </div>
    </div>

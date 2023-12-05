@@ -236,7 +236,7 @@ box-shadow: 0 0 10px rgb(164, 191, 210);
 border: none;
 }
 .lblhover {
-margin-top: 15px;
+margin-top: 10px;
 font-size: 16px;
 transition: font-size 0.3s, filter 0.3s;
 }

@@ -17,7 +17,11 @@ const routes: Routes=[
     path:'cart',
     component: CartComponent
     },
+    {
+      path:'home',
+      component: HomeComponent,
 
+      },
     {
     path:'',
     component: HomeComponent,
